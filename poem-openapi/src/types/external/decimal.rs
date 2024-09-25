@@ -92,6 +92,7 @@ use std::borrow::Cow;
 
 use poem::{http::HeaderValue, web::Field};
 use rust_decimal::Decimal;
+use rust_decimal::prelude::ToPrimitive;
 use serde_json::Value;
 
 use crate::{
@@ -141,7 +142,7 @@ impl ParseFromJSON for Decimal {
                 } else if let Some(u) = num.as_u64() {
                     Ok(Decimal::from(u))
                 } else if let Some(f) = num.as_f64() {
-                    Decimal::try_from(f).map_err(|_| ParseError::custom("Float out of range"))?
+                    Decimal::try_from(f).map_err(|_| ParseError::custom("Float out of range"))
                 } else {
                     Err(ParseError::custom("Invalid number"))
                 }
